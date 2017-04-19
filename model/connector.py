@@ -1,11 +1,12 @@
-from .model_wrapper import ModelWrapper
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from model.models import Base
 
 
-class Connector(ModelWrapper):
+class Connector:
     def __init__(self, db):
         self.engine = create_engine(db)
         Session = sessionmaker(bind=self.engine)
@@ -16,6 +17,6 @@ class Connector(ModelWrapper):
 
 
 if __name__ == '__main__':
-    con = Connector()
+    con = Connector(db=os.environ['DB'])
     con.update_model()
     con.session.commit()
