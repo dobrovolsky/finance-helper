@@ -9,5 +9,5 @@ from views.main_window_view import MainWindow
 
 app = QApplication(sys.argv)
 main_window = QMainWindow()
-window = MainWindow(main_window, Connector(db=os.environ['DB']).session)
+window = MainWindow(main_window, Connector, url=os.environ['DB'])
 sys.exit(app.exec_())

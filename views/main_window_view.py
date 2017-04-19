@@ -1,5 +1,11 @@
-from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog
+import os
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog, QMessageBox
+from sqlalchemy.exc import IntegrityError
+
 from model.alchemical_table_model import AlchemicalTableModel
+from model.connector import Connector
 
 from model.models import ItemList, Category, Item
 from views.add_item_view import AddItem
@@ -7,10 +13,12 @@ from views.mainwindow import Ui_MainWindow
 
 
 class MainWindow(Ui_MainWindow):
-    def __init__(self, main_window, session):
+    def __init__(self, main_window, connector, url):
         super(MainWindow, self).__init__()
         self.main_window = main_window
-        self.session = session
+        self.Connector = connector
+        self.db_url = url
+        self.role = Qt.UserRole
         self.setup_ui(main_window)
         self.setup_actions()
         main_window.show()
@@ -20,7 +28,9 @@ class MainWindow(Ui_MainWindow):
         self.action_exit.triggered.connect(QApplication.instance().quit)
 
         self.show_query_button.clicked.connect(self.change_model)
-        self.add_item_button.clicked.connect(self.open_about)
+        self.add_item_button.clicked.connect(self.open_add_item)
+
+        self.remove_category_button.clicked.connect(self.remove_category)
 
     def setup_ui(self, main_window):
         super(MainWindow, self).setupUi(main_window)
@@ -28,9 +38,10 @@ class MainWindow(Ui_MainWindow):
         self.set_categories()
 
     def set_model(self, query=None):
+        session = self.Connector(db=self.db_url).session
         if not query:
-            query = self.session.query(ItemList)
-        model = AlchemicalTableModel(self.session, query,
+            query = session.query(ItemList)
+        model = AlchemicalTableModel(session, query,
                                      [
                                          ('Name', ItemList, ('item', 'name'), {'editable': True}),
                                          ('Price', ItemList, ('item', 'price'), {'editable': True}),
@@ -42,17 +53,34 @@ class MainWindow(Ui_MainWindow):
         self.items_table.setModel(model)
 
     def set_categories(self):
-        for category in self.session.query(Category).all():
-            self.categories_list.addItem(QListWidgetItem(category.name))
+        self.categories_list.clear()
+        session = self.Connector(db=self.db_url).session
+        for category in session.query(Category).all():
+            item = QListWidgetItem(category.name)
+            item.setData(self.role, category.id)
+            self.categories_list.addItem(item)
 
     def change_model(self):
+        session = self.Connector(db=self.db_url).session
         try:
-            query = self.session.query(ItemList).join(Item).join(Category).filter(
-                Category.name == self.categories_list.selectedItems()[0].text())
+            query = session.query(ItemList).join(Item).join(Category).filter(
+                Category.id == self.categories_list.selectedItems()[0].data(self.role))
             self.set_model(query)
         except IndexError:
             self.set_model()
 
-    def open_about(self):
+    def open_add_item(self):
         dialog = QDialog()
-        AddItem(dialog, self.session.query(Category).all())
+        AddItem(dialog, self.Connector(db=self.db_url).session)
+
+    def remove_category(self):
+        try:
+            session = Connector(db=os.environ['DB']).session
+            category = session.query(Category).get(self.categories_list.selectedItems()[0].data(self.role))
+            session.delete(category)
+            session.commit()
+            self.set_categories()
+        except IndexError:
+            QMessageBox.information(None, 'Error', 'Please, select category item before delete them')
+        except IntegrityError:
+            QMessageBox.information(None, 'Error', 'You can\'t delete category that refers to item')
