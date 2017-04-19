@@ -57,10 +57,10 @@ class Date(types.Date):
             self, value, dialect)
 
 
-class DECIMAL(types.Date):
+class DECIMAL(types.DECIMAL):
     impl = types.DECIMAL
 
     def process_bind_param(self, value, dialect):
         return gen_process_bind_param(
-            float, lambda value: value.toDECIMAL(),
+            float, lambda value: value.toDouble(),
             self, value, dialect)

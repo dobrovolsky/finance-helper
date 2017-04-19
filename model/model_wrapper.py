@@ -8,6 +8,8 @@ class ModelWrapper:
 
     @staticmethod
     def add_category(name, description=None):
+        if name == '':
+            raise ValueError('Category has to have name')
         return Category(name=name, description=description)
 
     @staticmethod
