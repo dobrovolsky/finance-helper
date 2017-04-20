@@ -1,4 +1,4 @@
-from model.models import User, Category, Item
+from model.models import User, Category, Item, ItemList
 
 
 class ModelWrapper:
@@ -18,4 +18,4 @@ class ModelWrapper:
 
     @staticmethod
     def add_item_list(date, item_id, user_id):
-        return User(date=date, item_id=item_id, user_id=user_id)
+        return ItemList(date=date, item_id=item_id, user_id=user_id)

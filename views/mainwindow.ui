@@ -9,19 +9,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>790</width>
+    <width>834</width>
     <height>460</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>790</width>
+    <width>834</width>
     <height>460</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>790</width>
+    <width>834</width>
     <height>460</height>
    </size>
   </property>
@@ -61,6 +61,13 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QPushButton" name="remove_category_button">
+       <property name="text">
+        <string>Remove category</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="0" colspan="2">
       <widget class="QListWidget" name="categories_list">
        <property name="minimumSize">
@@ -68,16 +75,6 @@
          <width>0</width>
          <height>140</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QLabel" name="periond_label">
-       <property name="text">
-        <string>Period</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -90,11 +87,21 @@
      </item>
      <item row="4" column="1">
       <widget class="QDateEdit" name="periond_start">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="displayFormat">
         <string>M/dd/yyyy</string>
        </property>
        <property name="calendarPopup">
         <bool>true</bool>
+       </property>
+       <property name="date">
+        <date>
+         <year>2017</year>
+         <month>4</month>
+         <day>18</day>
+        </date>
        </property>
       </widget>
      </item>
@@ -107,11 +114,21 @@
      </item>
      <item row="5" column="1">
       <widget class="QDateEdit" name="periond_finish">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="displayFormat">
         <string>M/dd/yyyy</string>
        </property>
        <property name="calendarPopup">
         <bool>true</bool>
+       </property>
+       <property name="date">
+        <date>
+         <year>2017</year>
+         <month>4</month>
+         <day>18</day>
+        </date>
        </property>
       </widget>
      </item>
@@ -139,29 +156,22 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="2">
-      <widget class="QPushButton" name="remove_category_button">
+     <item row="3" column="0" colspan="2">
+      <widget class="QCheckBox" name="periond_checkbox">
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="text">
-        <string>Remove category</string>
+        <string>Filter by date</string>
        </property>
       </widget>
      </item>
     </layout>
    </widget>
-   <widget class="QTableView" name="items_table">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>10</y>
-      <width>611</width>
-      <height>351</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="add_item_button">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>670</x>
       <y>380</y>
       <width>151</width>
       <height>22</height>
@@ -171,13 +181,23 @@
      <string>Add item</string>
     </property>
    </widget>
+   <widget class="QTableWidget" name="items_table">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>651</width>
+      <height>361</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>790</width>
+     <width>834</width>
      <height>19</height>
     </rect>
    </property>
