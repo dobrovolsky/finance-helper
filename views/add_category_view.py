@@ -6,10 +6,12 @@ from model.model_wrapper import ModelWrapper
 
 
 class AddCategory(Ui_Dialog):
-    def __init__(self, Dialog, session):
+    def __init__(self, Dialog, connector, url):
         super(AddCategory, self).__init__()
-        self.session = session
+        self.Connector = connector
+        self.db_url = url
         self.dialog = Dialog
+        self.session = self.Connector(db=self.db_url).session
         self.setup_ui()
         self.setup_actions()
         self.dialog.exec_()
