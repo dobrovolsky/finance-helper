@@ -206,7 +206,6 @@
      <string>File</string>
     </property>
     <addaction name="action_export_to_excel"/>
-    <addaction name="action_import_from_excel"/>
     <addaction name="separator"/>
     <addaction name="action_exit"/>
    </widget>

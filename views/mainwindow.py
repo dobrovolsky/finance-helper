@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'views/mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.8.2
 #
@@ -95,7 +95,6 @@ class Ui_MainWindow(object):
         self.action_exit = QtWidgets.QAction(MainWindow)
         self.action_exit.setObjectName("action_exit")
         self.menuFile.addAction(self.action_export_to_excel)
-        self.menuFile.addAction(self.action_import_from_excel)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_exit)
         self.menubar.addAction(self.menuFile.menuAction())

@@ -1,9 +1,10 @@
 import os
 
 from PyQt5.QtCore import Qt, QDateTime
-from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QDialog, QMessageBox, QListWidgetItem
+from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QDialog, QMessageBox, QListWidgetItem, QFileDialog
 from sqlalchemy.exc import IntegrityError
 
+from excel.export import ExcelExport
 from model.connector import Connector
 
 from model.models import ItemList, Category, Item
@@ -34,6 +35,7 @@ class MainWindow(Ui_MainWindow):
 
         self.remove_category_button.clicked.connect(self.remove_category)
         self.periond_checkbox.clicked.connect(self.change_date_input)
+        self.action_export_to_excel.triggered.connect(self.export_to_excel)
 
     def setup_ui(self, main_window):
         super(MainWindow, self).setupUi(main_window)
@@ -106,3 +108,12 @@ class MainWindow(Ui_MainWindow):
     def change_date_input(self):
         self.periond_start.setEnabled(self.periond_checkbox.isChecked())
         self.periond_finish.setEnabled(self.periond_checkbox.isChecked())
+
+    def export_to_excel(self):
+        dialog = QFileDialog()
+        filename = dialog.getSaveFileName()
+        if filename[0]:
+            ExcelExport().create_file(filename[0], self.get_query(), 'saved items')
+
+
+
