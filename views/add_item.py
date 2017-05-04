@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'add_item.ui'
+# Form implementation generated from reading ui file 'views/add_item.ui'
 #
 # Created by: PyQt5 UI code generator 5.8.2
 #
@@ -70,6 +70,13 @@ class Ui_Dialog(object):
         self.count_split.setMaximum(500)
         self.count_split.setObjectName("count_split")
         self.gridLayout.addWidget(self.count_split, 3, 1, 1, 2)
+        self.card_label = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.card_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.card_label.setObjectName("card_label")
+        self.gridLayout.addWidget(self.card_label, 6, 0, 1, 1)
+        self.card_selector = QtWidgets.QComboBox(self.gridLayoutWidget)
+        self.card_selector.setObjectName("card_selector")
+        self.gridLayout.addWidget(self.card_selector, 6, 1, 1, 2)
         self.save_button = QtWidgets.QPushButton(Dialog)
         self.save_button.setGeometry(QtCore.QRect(280, 310, 81, 22))
         self.save_button.setObjectName("save_button")
@@ -98,6 +105,7 @@ class Ui_Dialog(object):
         self.date_editor.setDisplayFormat(_translate("Dialog", "M/dd/yyyy"))
         self.add_category_button.setText(_translate("Dialog", "Add category"))
         self.count_label.setText(_translate("Dialog", "count"))
+        self.card_label.setText(_translate("Dialog", "card"))
         self.save_button.setText(_translate("Dialog", "Save"))
         self.cancel_button.setText(_translate("Dialog", "Cancel"))
         self.reset_button.setText(_translate("Dialog", "Reset"))

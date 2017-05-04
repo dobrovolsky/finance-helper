@@ -30,7 +30,9 @@ class AddCategory(Ui_Dialog):
     def add_category(self):
         QTextEdit().toPlainText()
         self.session.add(ModelWrapper.add_category(name=self.name_editor.text(),
-                                                   description=self.description_editor.toPlainText()))
+                                                   description=self.description_editor.toPlainText(),
+                                                   user_id=1
+                                                   ))
         self.session.commit()
         self.reset_fields()
         QMessageBox.information(None, 'Add category', 'Category was added')

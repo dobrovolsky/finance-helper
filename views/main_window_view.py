@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from excel.export import ExcelExport
 from model.connector import Connector
 
-from model.models import ItemList, Category, Item
+from model.models import Category, Item, User
 from views.add_item_view import AddItem
 from views.mainwindow import Ui_MainWindow
 
@@ -18,8 +18,8 @@ class MainWindow(Ui_MainWindow):
         self.main_window = main_window
         self.table_header = ('name', 'price', 'count', 'description', 'category', 'date')
         self.row_items = (
-            ('item', 'name'), ('item', 'price'), ('item', 'count'), ('item', 'description'),
-            ('item', 'category', 'name'), ('date',))
+            ('name',), ('price',), ('count',), ('description',),
+            ('category', 'name'), ('date',))
         self.Connector = connector
         self.db_url = url
         self.setup_ui(main_window)
@@ -45,7 +45,13 @@ class MainWindow(Ui_MainWindow):
     def restart_ui(self):
         self.items_table.setHorizontalHeaderLabels(self.table_header)
         self.set_items()
+        self.set_user_name()
         self.set_categories()
+
+    def set_user_name(self):
+        session = self.Connector(db=self.db_url).session
+        user = session.query(User).get(1)
+        self.user_label.setText(user.first_name + ' ' + user.last_name)
 
     def set_items(self):
         self.items_table.clear()
@@ -77,16 +83,16 @@ class MainWindow(Ui_MainWindow):
 
     def get_query(self):
         session = self.Connector(db=self.db_url).session
-        query = session.query(ItemList).join(Item).join(Category)
+        query = session.query(Item).join(Category)
         if self.periond_checkbox.isChecked():
             start_date = QDateTime(self.periond_start.date()).toPyDateTime()
             finish_date = QDateTime(self.periond_finish.date()).toPyDateTime()
-            query = query.filter(ItemList.date >= start_date, ItemList.date <= finish_date)
+            query = query.filter(Item.date >= start_date, Item.date <= finish_date)
         try:
             query = query.filter(Category.id == self.categories_list.selectedItems()[0].data(Qt.UserRole))
         except IndexError:
             pass
-        return query.order_by(ItemList.date)
+        return query.order_by(Item.date)
 
     def add_item(self):
         dialog = QDialog()
@@ -114,6 +120,3 @@ class MainWindow(Ui_MainWindow):
         filename = dialog.getSaveFileName()
         if filename[0]:
             ExcelExport().create_file(filename[0], self.get_query(), 'saved items')
-
-
-

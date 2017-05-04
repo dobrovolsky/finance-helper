@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QDate, QDateTime
 from PyQt5.QtWidgets import QDialog
 
-from model.models import Category, ItemList
+from model.models import Category, Item
 from views.add_item import Ui_Dialog
 from views.add_category_view import AddCategory
 from model.model_wrapper import ModelWrapper
@@ -23,12 +23,12 @@ class AddItem(Ui_Dialog):
         super(AddItem, self).setupUi(self.dialog)
         self.set_categories()
         if self.item_list:
-            self.item_list = self.session.query(ItemList).get(self.item_list)
-            self.name_editor.insert(self.item_list.item.name)
-            self.price_spin.setValue(self.item_list.item.price)
-            self.count_split.setValue(self.item_list.item.count)
-            self.description_editor.insert(self.item_list.item.description)
-            self.category_selector.setCurrentText(self.item_list.item.category.name)
+            self.item_list = self.session.query(Item).get(self.item_list)
+            self.name_editor.insert(self.item_list.name)
+            self.price_spin.setValue(self.item_list.price)
+            self.count_split.setValue(self.item_list.count)
+            self.description_editor.insert(self.item_list.description)
+            self.category_selector.setCurrentText(self.item_list.category.name)
             self.date_editor.setDate(QDate(self.item_list.date))
             self.remove_button.setEnabled(True)
 
@@ -59,18 +59,16 @@ class AddItem(Ui_Dialog):
         category_id = self.category_selector.currentData()
         date = QDateTime(self.date_editor.date()).toPyDateTime()
         if self.item_list:
-            self.item_list.item.name = name
-            self.item_list.item.price = price
-            self.item_list.item.count = count
-            self.item_list.item.description = description
-            self.item_list.item.category_id = category_id
-            self.item_list.date = date
+            self.item_list.name = name
+            self.item_list.price = price
+            self.item_list.count = count
+            self.item_list.description = description
+            self.item_list.category_id = category_id
+            self.item_list = date
         else:
             item = ModelWrapper.add_item(name=name, price=price, count=count, category_id=category_id,
-                                         description=description)
+                                         description=description, date=date, user_id=1)
             self.session.add(item)
-            self.session.commit()
-            self.session.add(ModelWrapper.add_item_list(date=date, item_id=item.id, user_id=1))
         self.session.commit()
         self.dialog.close()
 

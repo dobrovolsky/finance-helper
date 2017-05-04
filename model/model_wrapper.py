@@ -1,4 +1,4 @@
-from model.models import User, Category, Item, ItemList
+from model.models import User, Category, Item
 
 
 class ModelWrapper:
@@ -7,15 +7,12 @@ class ModelWrapper:
         return User(first_name=first_name, last_name=last_name, email=email, phone=phone)
 
     @staticmethod
-    def add_category(name, description=None):
+    def add_category(name, user_id, description=None):
         if name == '':
             raise ValueError('Category has to have name')
-        return Category(name=name, description=description)
+        return Category(name=name, user_id=user_id, description=description)
 
     @staticmethod
-    def add_item(name, price, count, category_id, description=None):
-        return Item(name=name, price=price, count=count, category_id=category_id, description=description)
+    def add_item(name, price, count, category_id, user_id, date, description=None):
+        return Item(name=name, price=price, date=date,user_id=user_id, count=count, category_id=category_id, description=description)
 
-    @staticmethod
-    def add_item_list(date, item_id, user_id):
-        return ItemList(date=date, item_id=item_id, user_id=user_id)
