@@ -6,6 +6,6 @@ Features:<br />
 
 1) install requirements <code>pip3 install -r requirements.txt</code>;<br />
 2) add environment variables <code>DB</code> with database url;<br />
-3) run `python3 model/connector.py`.<br />
+3) run `python3 connector.py`.<br />
 4) run `python3 main.py`.
 

@@ -1,5 +1,6 @@
 import os
 
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -21,4 +22,7 @@ if __name__ == '__main__':
     con = Connector(db=os.environ['DB'])
     con.update_model()
     con.session.add(ModelWrapper.add_user('user', '#1', 'user@user.com'))
-    con.session.commit()
+    try:
+        con.session.commit()
+    except sqlalchemy.exc.IntegrityError:
+        pass
