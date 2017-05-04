@@ -3,6 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from model.model_wrapper import ModelWrapper
 from model.models import Base
 
 
@@ -19,4 +20,5 @@ class Connector:
 if __name__ == '__main__':
     con = Connector(db=os.environ['DB'])
     con.update_model()
+    con.session.add(ModelWrapper.add_user('user', '#1', 'user@user.com'))
     con.session.commit()

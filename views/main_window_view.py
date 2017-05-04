@@ -4,9 +4,8 @@ from PyQt5.QtCore import Qt, QDateTime
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QDialog, QMessageBox, QListWidgetItem, QFileDialog
 from sqlalchemy.exc import IntegrityError
 
+from connector import Connector
 from excel.export import ExcelExport
-from model.connector import Connector
-
 from model.models import Category, Item, User
 from views.add_item_view import AddItem
 from views.mainwindow import Ui_MainWindow
