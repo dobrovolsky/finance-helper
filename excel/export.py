@@ -10,8 +10,8 @@ class ExcelExport:
         self.work_book = Workbook()
 
         self.row_items = (
-            ('date',), ('item', 'name'), ('item', 'price'), ('item', 'count'),
-            ('item', 'category', 'name'),)
+            ('date',), ('name',), ('price',), ('count',),
+            ('category', 'name'))
 
     def _get_rows(self, query):
         rows = []
@@ -23,7 +23,6 @@ class ExcelExport:
                     last_value = getattr(last_value, attr)
                 value.append(last_value)
             rows.append(value)
-        print(rows)
         return rows
 
     def create_file(self, file, query, sheet_name):
